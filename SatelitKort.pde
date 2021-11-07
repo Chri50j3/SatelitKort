@@ -3,12 +3,13 @@ JSONObject j;
 PVector Yakse = new PVector(0,1,0);
 PVector RotateSat;
 
-float angle = 0, angleAll = 0, angleAll2=0, O=0;
+float angle = 0, angleAll = 1.3, angleAll2=0, O=0;
 float r = 200;
 PVector lok = new PVector();
 float lokMag;
 float x2,y2,z2;
 float speed = 1;
+float time;
 
 PImage earth;
 PShape globe;
@@ -24,11 +25,14 @@ void setup(){
   
   requestData();
   
+  textSize(15);
+  
 }
 
 void draw(){
   
   background(25);
+  
   push();
   translate(width*0.5, height*0.5);
   rotate(angleAll2,Yakse.x,Yakse.y,Yakse.z);
@@ -43,7 +47,13 @@ void draw(){
   lok.setMag(lokMag);
   translate(lok.x,lok.y,lok.z);
   box(10);
+  
   pop();
+  
+  text("Brug A og D til at dreje verden", 10,20);
+  text("SPACE STATION", 10,45);
+  text("Timestamp: " + time, 10,60);
+
 }
 
 //Henter dataen én gang
@@ -60,6 +70,8 @@ void requestData() {
   
   float sat2Lon = pos2.getFloat("satlongitude");
   float sat2Lat = pos2.getFloat("satlatitude");
+  
+  time = pos1.getFloat("timestamp");
   
   float theta1 = radians(sat1Lat);
   float phi1 = radians(sat1Lon) + PI;
@@ -95,6 +107,7 @@ void keyPressed(){
   }
 }
 
+//reducere rotationshastigheden
 void keyReleased(){
   O = 0.99;
 }
